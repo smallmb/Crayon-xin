@@ -1,0 +1,31 @@
+# 通用技能描述；具体宿主的导入格式需以其实际 schema 为准。
+name: universal-crayon-style-transfer
+description: >-
+  Universal Crayon Style Transfer 将源图转换为细密纸齿、柔和叠色的蜡笔/油画棒画，
+  支持 portrait, landscape, architecture, pet, plant, still life 和 mixed scenes；
+  适用于 universal crayon transfer、图片转蜡笔画、照片或草图风格化，
+  单张源图即可，保留构图与背景环境；支持保色、严格黑白、
+  线稿按主体/部件/材质进行低饱和补色及可选效果参考，按题材、局部配色和风格接近程度自检。
+# 检索词覆盖不同题材，不将技能触发限制在人像。
+keywords:
+  - universal crayon transfer
+  - rough crayon pastel illustration
+  - soft layered wax crayon
+  - fine paper grain
+  - sketch colorization
+  - material-aware local colorization
+  - style reference matching
+  - oil pastel
+  - portrait
+  - landscape
+  - architecture
+  - pet
+  - animal
+  - plant
+  - still life
+  - mixed scenes
+  - sketch
+  - comic
+  - photo
+  - 通用蜡笔画风格转换
+  - 油画棒
