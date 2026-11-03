@@ -6,9 +6,15 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/smallmb/Crayon-xin/archive/refs/heads/main.zip">下载 Skill</a> ·
-  <a href="#快速开始">开始使用</a> ·
-  <a href="references/style-guide.md">风格指南</a>
+  <a href="https://github.com/smallmb/Crayon-xin/archive/refs/heads/main.zip"><img src="https://img.shields.io/badge/下载-Skill-2563eb?style=for-the-badge" alt="下载 Skill"></a>
+  <a href="https://github.com/smallmb/Crayon-xin"><img src="https://img.shields.io/badge/适用-Codex-111827?style=for-the-badge" alt="适用于 Codex"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-10b981?style=for-the-badge" alt="MIT License"></a>
+</p>
+
+<p align="center">
+  <a href="#快速开始">使用指南</a> ·
+  <a href="https://github.com/smallmb/Crayon-xin/commits/main/">更新记录</a> ·
+  <a href="https://github.com/smallmb/Crayon-xin/issues/new">反馈问题</a>
 </p>
 
 一张图片即可开始，无需额外风格参考。支持人像、风景、建筑、动物与静物，让线稿有颜色，让照片有手绘质感。
