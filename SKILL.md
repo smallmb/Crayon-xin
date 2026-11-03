@@ -1,75 +1,74 @@
 ---
 name: universal-crayon-style-transfer
-description: Convert user-provided images into layered crayon pastel illustrations with fine paper grain and softly textured color. Use for universal crayon transfer of portrait, landscape, architecture, pet, plant, still life, mixed scenes, sketches, comics, or photos. Preserve source structure and environment; follow optional style references and controlled sketch colorization. 用于图片转蜡笔画、油画棒风格化。
+description: Convert supplied portraits, landscapes, architecture, animals, plants, objects, sketches, comics, or photos into crayon or oil pastel illustrations. Support source color preservation, sketch colorization, optional style references, and visual review. 图片转蜡笔画或油画棒，按部件配色并保留构图与环境。
 ---
 
 # Universal Crayon Style Transfer
 
-将任意输入图片（人像、风景、建筑、动物、植物、静物、素描、漫画或照片）转换为有纸张齿纹、细密叠色和手绘边缘的蜡笔/油画棒插画。默认采用细腻轻彩质感（soft layered wax crayon illustration），粗犷表现档按用户要求启用。单张源图即可，无需额外风格参考图；用户提供效果参考时可进一步匹配。
+将源图转换为蜡笔或油画棒插画。默认延续细腻轻彩、分区配色、保留原画结构的效果。
 
-## Identify the input
+## 1. 解析输入
 
-- 先明确图像角色：待转换图片是唯一内容源图；用户提供的效果示例是风格参考，仅提供媒介、笔触、配色和纸感。先分别读取，再组织编辑提示词。没有可读取的源图时，请用户附图，不凭空生成替代品。
-- 严格保留构图、透视、核心主体轮廓、主体数量、遮挡关系、取景范围、宽高比和明暗分组。保色模式同时保留主色调分布，补色/参考模式则按已选方案分区着色。禁止新增主体、换姿势、改服装、裁切关键部分或重组场景。
-- 识别画面类型：人像/角色、自然风景/城市建筑、动物/植物、静物/日常物品、混合场景。混合场景按区域叠加对应规则，不把整张图强行归成人像。
-- 分别记录主体、前中远景、主要色块位置、光源方向，以及简单背景或复杂环境。另选定色彩模式：彩色源图默认保色；用户要求黑白时严格灰度；未指定保留黑白的未上色线稿默认允许少量低饱和艺术补色，同时锁定明暗分组；有效果参考时按其色彩关系执行。补色是创作选择，不声称还原了未知真实颜色。
-- 补色时先按“主体→部件→材质”建立配色清单：头发、皮肤、衣料、衣领/镶边/纽扣、原有小道具分别配色；动物的毛色与鼻爪、风景的天空/植被/地面、静物的本体/把手/高光同理。不能只给整个人物或场景罩一层颜色，也不能只上腮红而把其他有可辨材质的区域全部留成灰度。未出现的部件不添加，遮挡部位不补造。
-- 多张源图时逐张处理，每张输出一张独立结果；不拼图、不跨图借用内容。额外风格参考图仅在用户明确指定时使用。
+先读取源图；用户指定的效果参考也须读取。每张待转换图片是独立内容源，参考图只决定获准的画法与色彩关系。多张源图逐张生成，不跨图借用主体。没有可读取的源图时请用户附图。
 
-## Apply the crayon style from this skill
+为本次编辑形成简短计划，无需把完整计划展示给用户：
 
-### 全局通用材质规则
+- **结构**：题材、主体数量、姿势、比例、取景、宽高比、遮挡、透视、关键身份或物种特征、原有道具及明暗分组。
+- **环境**：简单底色或复杂场景；主要区域的位置、颜色、远近、光源与投影。白底保持中性白，黑底保持近黑；透明底按工具能力保留。全画幅环境是画面内容。
+- **色彩模式**：彩色源图默认保色；明确要求黑白则所有区域严格灰度；未上色线稿默认允许克制的艺术补色；指定参考时迁移对应色彩关系。补色属于创作选择，不声称恢复未知真实颜色。
+- **分区配色**：列出实际可辨的部件及其底色、阴影色、必要的细节色。人物含发、肤、眼、衣料、衣领与配件；其他题材按天空/地面、毛色/鼻爪、器物/把手等拆分。保色时以原图为准，补色时允许协调的新颜色。
 
-- 默认使用 softly layered wax crayon、fine paper tooth、delicate broken contours 和 thin overlapping color strokes。蜡笔颗粒清晰但细小，浅色薄涂叠色，深色密实叠色，保留层次与轮廓；粗糙感来自颗粒和自然边缘，不来自大面积刮白、锯齿或满屏黑灰排线。
-- 将线条、填色和纸张分开描述：线条细而略断续；填色顺着形体，薄层交叠；纸张为中性白的细微齿纹。避免纯炭笔拓印感、厚重油画堆料、照片加噪点、光滑矢量色块、水彩晕染。
-- 已有清晰漫画/线稿时，优先保留其眼形、轮廓和细线关系，在形状内叠加蜡笔色层；不为“稚拙”强行重画五官或粗化所有边线。照片则适度概括细节；非人像图片同样保留辨识结构。
-- 用户明确要求强烈粗犷效果时，再提高笔触宽度、留白和断续排线；不要将参考图中的细密颗粒误读为粗大的抓痕。
-- 配色同时区分固有色、阴影色和少量高光/细节色。大色块保持协调，小道具和服饰细节允许各有相应颜色；“少量色系”约束整体关系，不限制整图只能用几个颜色，更不能把不同材质全涂成同色。保留已有细节的颜色辨识度，不让厚重纹理吞掉它们。
-- 若存在 [references/style-guide.md](references/style-guide.md)，生成前读取“全局材质笔触规范”“背景与色调锁定规范”及本次题材对应模块，检查时再次参照相关清单。其数值是视觉提示范围，不是虚构的生图 API 参数。
+结构和环境以源图为依据；用户明确要求的改变优先。保留原有遮挡，不补造不可见部件。用户只说“转蜡笔风”时直接使用默认设置。
 
-### 主体自适应规则
+## 2. 选择媒介与表现强度
 
-- **人像/角色**：保留姿势、服装、头发和可辨身份特征。漫画/线稿保留原眼形、眼睑与表情；真人照片才适度概括五官，不自动改成圆点眼或幼儿脸。鼻嘴保持原形的简练线条，仅在源图有粗眉时保留粗眉。彩色模式中可用低饱和玫粉色、多层轻擦的腮红，顺着可见面颊自然展开、边缘渐疏，避免孤立的亮粉锯齿色块；参考有鼻尖或唇部暖色时一并轻量匹配。背影、遮挡面部或远处小人不补画五官；严格黑白模式不添加粉色。发色、肤色及衣色按选定色彩模式处理，浅色不全留成空白，深衣不画成破碎黑白噪点。
-- **风景/建筑/街景**：保留地平线、空间景深、消失方向、建筑几何轮廓和光影氛围；将树叶、云层、水面、山石及砖墙概括为堆叠蜡笔笔触与大色块过渡。远景比近景稀疏、低对比，不凭空添加窗户、道路或装饰。
-- **动物/植物**：保留剪影、比例、可见肢体、花叶结构及可辨识的斑纹；毛发、羽毛、枝叶简化为随形排线与色块。动物保持原有物种特征，不套用人类腮红、眉毛或鼻嘴。
-- **静物/日常物品/其他物体**：保留核心剪影、比例、相互位置和高辨识度特征；玻璃、金属或陶瓷高光转为少量粗糙浅色笔触，保留材质区分，不添加脸、四肢或表情。
-- **混合场景**：环境执行风景规则，人物、动物及物体各执行对应规则；保留整体主次与明暗关系，不因为局部人脸而改变整张图的画风尺度。
+三种预设是起点，笔触强度与结构简化可以独立调整。用户参考优先于预设；参考图不会自动改变源图内容。
 
-## Keep the background and environment from the source
+| 预设 | 触发与正向锚点 |
+| --- | --- |
+| A · 细腻轻彩蜡笔（默认） | `softly layered wax crayon, fine paper tooth, delicate broken contours, translucent light strokes, densely layered dark pigment` |
+| B · 绵密油画棒 | “油画棒、油润、绵密”时选用：`creamy oil pastel, rich velvety pigment, softly blended color transitions, tactile pigment on textured paper`；用户要求厚涂时再加入 `subtle impasto ridges` |
+| C · 粗犷蜡笔表现 | “粗犷、重肌理、奔放”时选用：`bold expressive crayon strokes, visible paper tooth, energetic form-following hatching, broad layered color blocks` |
 
-- 禁止默认添加鼠尾草绿（sage green）、昏暗杂色、泛黄纸底或其他预设底色；源图本身有相应颜色时应忠实保留，不做机械禁色。
-- **主体＋纯色/简单背景**：从源图提取背景色及其分布。白底保持中性白的视觉观感，可有低对比的白纸齿纹，不加米黄/灰绿底、明显阴影、晕影或边框。用户明确要求纯色 #FFFFFF 时才将其作为无纹理底色约束；不把细微白纸起伏误判为背景改色。透明源图默认保留透明，除非用户另有要求。
-- **全画幅风景/复杂环境**：天空、地面、远景、建筑、室内陈设都是场景内容，按区域保留形状、位置和色板，不能抹平成单色底。保留原有明暗主基调、冷暖关系、光源方向及重要投影。
-- 默认不整体增艳、暖化或提亮；低饱和、夜景、高调白景分别保留自身特点。用户明确要求的改色或改构图优先，同时说明这是用户指定的变化。
-- 主体补色与背景锁定分开判断：线稿头发的浅金、肤色的淡暖或深衣的冷蓝黑若来自用户风格参考，是本次允许的主体上色，不应在自检时一律删回灰度；不得将这些具体配色推广成所有题材的默认色板。
+- **笔触强度**：轻／中／强，默认 A 轻至中、B 中、C 强。控制颗粒、线宽、露纸和色料厚度；饱和度另按源图或用户要求决定。油画棒可以低饱和，粗犷也可以保持精确轮廓。
+- **结构简化**：低／中／高。漫画与线稿默认低，保留眼形、表情和发束关系；照片默认中，概括微细纹理但保留身份、姿势与核心形状；“绘本、稚拙、童趣”可选高。高简化也要保留关键剪影、数量、透视、遮挡与辨识特征，不自动改成幼儿比例。
 
-## Generate with the available image editor
+生成前读取 [风格指南](references/style-guide.md) 的“材质与配色”，再读本次涉及的题材模块。混合场景组合适用；不把人像处理套给其他主体。
 
-- 使用当前宿主实际提供、支持参考图编辑的图像工具，将本张源图作为编辑输入。不要仅用文字重建源图；不要假设文档中提到的连接器在当前环境可用。
-- 提示词先写 3–5 个决定效果的正向锚点（如细腻蜡笔叠色、柔和补色、保留原细线、中性白纸、密实深色），再写源图结构、主体规则和必要的禁止项。避免用重复的“粗糙/黑白/强颗粒”等词压倒参考效果。保留原宽高比，按工具能力选择相近输出尺寸。
-- 支持多图参考的工具中，将内容源图和用户明确指定的风格参考一起传入，逐张标明角色；源图决定内容和构图，参考决定绘制方式和已授权的配色。工具仅支持一张图时，保留内容源图输入，并把参考特征写成文字；不偷偷把参考当成唯一内容源图，也不省略源图重建画面。
-- 不为风格转换主动创建、安装连接器；若无可用的参考图编辑工具，说明缺少的能力，转入下文兜底。遵循宿主已有的工具权限和授权范围。
+## 3. 组装提示词并生成
 
-## Check the result before presenting
+使用当前宿主实际提供的参考图编辑工具，传入原始源图。工具支持时同时传入用户指定参考，并标明图片角色；只支持一图时传源图，将参考画法写成文字。保留原宽高比或选择最接近的可用尺寸。遵守宿主工具规范，不假定特定平台连接器存在。
 
-必须先读取生成图，再与源图逐项对照；工具返回成功不等于视觉检查通过。可读取工具返回的图片，或打开其实际输出文件；无法读取时，不声称已自检通过。
+按以下四段式英文模板填写，只留下适用内容，不将占位符直接发给工具：
 
-1. **通用结构**：构图、空间透视、取景、主体数量、剪影、比例及遮挡是否保持。
-2. **背景/环境与配色模式**：背景基调是否一致；复杂环境的各区域色调、空间层次和明暗是否忠实；是否按保色、严格黑白、艺术补色或参考配色的实际选择执行，避免误删已获允许的颜色。
-3. **质感与风格接近程度**：是否有细密蜡笔叠色、自然纸齿与层次；暗部是否完整，浅色是否薄透，是否出现过粗黑线、大条刮白或贴纸式腮红。有效果参考时，必须直接对照笔触尺度、配色冷暖、线条粗细和纸感，不能只因“有颗粒”就判通过。
-4. **条件特征与局部配色**：仅在源图含可辨人脸时检查五官结构是否保留、简化强度是否适当、面颊/鼻尖/唇部色彩是否自然且有区别；无脸时跳过。补色模式逐项核对配色清单，尤其是头发、肤色、服饰细节、小道具是否分别着色，避免“只有腮红有色”或“一层颜色染全身”。风景/建筑检查地平线与几何结构；动物/植物检查物种、肢体及花叶特征；静物检查形状、摆放和材质提示；混合场景检查所有实际存在的类别。
+```text
+MEDIUM: Render the supplied source as [selected medium anchors]. Use [stroke intensity] texture and [structural abstraction] simplification. [Relevant style-reference characteristics, if supplied.]
 
-若生成成功但背景或色调错误，必须用同一工具、同一原始源图进行一次明确修正，写清“源图实际区域/颜色、结果偏差、目标修正及其他需保持的内容”；其他关键视觉不合格项可合并修正。每张源图本轮最多两次生成调用（初次＋一次视觉修正）。修正结果也必须读取检查；仍不合格则停止，不把错误版本作为最终合格结果展示，提供下文兜底。按源图顺序展示通过检查的结果；部分失败时明确指出对应图片。
+STRUCTURE: Preserve the source composition, framing, aspect ratio, subject count, pose, proportions, camera angle, perspective, and occlusion. Retain [observed identity cues, silhouettes, and essential existing details]. Simplify [secondary details appropriate to the selected abstraction].
 
-## Handle a failed generation
+COLOR AND SUBJECT: Use [source-color preservation / strict grayscale / artistic colorization / authorized reference palette]. Map each visible region separately: [region: base color, shadow color, material treatment; repeat as needed]. [Relevant subject-specific rendering instructions.]
 
-- **工具失败**（报错、拒绝、没有可用图片或结果无法读取）：同一轮不换工具、不改词重复硬试同一失败源图。先前成功出图后的有限视觉修正遵循上一节，不作为绕过工具失败的理由；修正调用失败也立即停止。
-- **修正后仍未通过自检**：说明实际失败项并停止，不能继续循环修图或宣称已达标。
-- 提供两种方向供用户选择：该风格的详细风格指南；或与源图同题材的同风格原创蜡笔画（original subject or scene，如原创人像、风景、动物或静物）。原创画面不是对原图的忠实转换，须明确区分。
-- 等用户选择新方向后再生成；不自动替用户改成原创内容。多图任务的失败仅影响对应源图，其余仍按原要求处理。
+ENVIRONMENT AND LIGHT: Keep [observed background regions, positions, colors, and depth]. Preserve [light direction, value grouping, and important shadows]. Apply [selected medium treatment] consistently while retaining the environment's original tonal character.
+```
 
-## Available connectors
+逻辑约束先在内部检查，提示词优先写目标状态。例如白底写 `neutral white background with subtle white paper tooth`，遮眼发型写 `the fringe continues to cover the same eye`，漫画眼睛写原有眼形和表情。不要把历史失败清单整段粘进提示词；仅对本次确有风险的结构加简短限制。正向表达不保证模型一定遵守，最终仍以视觉检查为准。
 
-- Use `muse.connector_search` to find other connectors and `muse.skill_search` to find related skills.
+## 4. 读取结果并分级自检
 
-- If nothing here fits, look on the web for a maintained API or MCP server and set it up with [Custom Connectors and MCPs](/opt/muse/skills/custom-connector-setup/SKILL.md), or build a custom connector.
+展示前必须实际读取生成图，与源图、选定配置及有效参考对照。工具成功不代表检查通过；无法读取时明确说明未完成视觉检查。只检查实际存在的题材与部件。
+
+| 等级 | 判定 | 处理 |
+| --- | --- | --- |
+| P0 · 内容或请求违背 | 主体增减，明显换脸/换物种，姿势或核心轮廓改变，关键内容被裁切，背景被替换，环境结构严重丢失，严格黑白出现彩色 | 优先修正；修正后仍有 P0，停止并说明具体问题，不作为忠实转换的最终交付 |
+| P1 · 核心风格偏差 | 选定媒介不明显，整图统一染色造成材质混同，主要部件漏涂，漫画五官被明显幼化，主体明暗或环境色调显著偏移 | 如有修正机会则处理；仍有偏差但无 P0 时，展示最符合请求的可用版本，简短说明实际偏差，不宣称完全通过 |
+| P2 · 局部细节瑕疵 | 微小配件轻微色差，局部纸齿偏弱，细小边线差异，且不影响辨识或用户明确重点 | 直接交付；可感知且有用时附一句说明，不为细小问题消耗重绘机会 |
+
+等级随用户重点调整：用户明确要求准确的标识、配件色或背景纯色，不能一律当作 P2。白纸的细微明度起伏也不等于背景替换。
+
+每张源图本轮最多初次生成加一次视觉修正。存在 P0 时先解决 P0，仅合并与其相关且不冲突的 P1；没有 P0 时修正最主要的 P1，不堆入所有细节建议。修正提示词明确“观察到的偏差→目标状态→应保持的结构与画法”。以原始源图为内容依据，工具允许时将当前结果作为标明角色的风格辅助，避免只反复编辑衍生图而累积结构漂移。
+
+修正后再次读取，优先选择无 P0 且最符合用户要求的版本。多图按源图顺序交付，单张失败不阻止其他可用结果。最终简短说明完成情况与实质偏差，并提供可用文件。
+
+## 5. 失败边界
+
+工具报错、拒绝或没有可用图片时，不换工具或改词反复硬试；修正调用失败也停止。已有可读取且无 P0 的结果可以按上述分级交付。无可用结果或持续 P0 时，说明实际问题，供用户选择获取风格指南，或另创同题材画面；用户选择后再生成。原创作品须明确区分于源图转换，不自动替代。
